@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
 
   rlfe:
@@ -20,7 +18,7 @@ services:
   rlapi:
     container_name: rlapi
     build:
-      context: ./interview
+      context: ./Interview
       dockerfile: ./Dockerfile
     environment:
       - DOTNET_ENVIRONMENT=Development
