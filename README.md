@@ -62,3 +62,44 @@ Provide functionality to remove all users from a procedure at once.
 1. Create table structure to store the assigned users
 2. Create endpoint(s) to interact with new table structure
 3. Hook up endpoint(s) to the frontend so when a user is selected, they are correctly assigned to that procedure
+
+## Solution Implementation
+
+### Backend Changes
+
+1. **Data Model**
+   - Created `PlanProcedureUser` entity to store user assignments
+   - Added relationships in `RLContext` to manage user-procedure associations
+
+2. **New Commands**
+   - `AssignUserToPlanProcedureCommand`: Handles assigning users to procedures
+   - `ClearUsersFromPlanProcedureCommand`: Implements the "Remove All Users" functionality
+
+### Frontend Changes
+
+1. **PlanProcedureItem Component**
+   - Enhanced user assignment UI to show assigned users
+   - Added functionality to:
+     - Display assigned users after page refresh
+     - Remove individual users from procedures
+     - Clear all users from a procedure
+   - Improved error handling and user feedback
+
+### Key Features Implemented
+
+1. **User Assignment Persistence**
+   - Assigned users now persist and display correctly after page refresh
+   - Multiple users can be assigned to a single procedure
+
+2. **User Management**
+   - Individual user removal functionality
+   - Bulk removal of all users from a procedure
+   - Improved user interface for managing assignments
+
+### Testing
+
+To verify the implementation:
+1. Create a new plan and add procedures
+2. Assign users to different procedures
+3. Refresh the page - assigned users should remain visible
+4. Try removing individual users and using the "Remove All" functionality
