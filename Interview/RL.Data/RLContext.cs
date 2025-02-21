@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RL.Data.DataModels;
 using RL.Data.DataModels.Common;
 
@@ -9,11 +9,12 @@ public class RLContext : DbContext
     public DbSet<PlanProcedure> PlanProcedures { get; set; }
     public DbSet<Procedure> Procedures { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<PlanProcedureUser> PlanProcedureUsers { get; set; }
 
     public RLContext() { }
     public RLContext(DbContextOptions<RLContext> options) : base(options) { }
 
-    protected override async void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
@@ -22,6 +23,22 @@ public class RLContext : DbContext
             typeBuilder.HasKey(pp => new { pp.PlanId, pp.ProcedureId });
             typeBuilder.HasOne(pp => pp.Plan).WithMany(p => p.PlanProcedures);
             typeBuilder.HasOne(pp => pp.Procedure).WithMany();
+        });
+
+        builder.Entity<PlanProcedureUser>(typeBuilder =>
+        {
+            // Configure composite key
+            typeBuilder.HasKey(ppu => new { ppu.PlanId, ppu.ProcedureId, ppu.UserId });
+
+            // Configure relationship with PlanProcedure
+            typeBuilder.HasOne(ppu => ppu.PlanProcedure)
+                .WithMany()
+                .HasForeignKey(ppu => new { ppu.PlanId, ppu.ProcedureId });
+
+            // Configure relationship with User
+            typeBuilder.HasOne(ppu => ppu.User)
+                .WithMany()
+                .HasForeignKey(ppu => ppu.UserId);
         });
 
         //Add procedure Seed Data
