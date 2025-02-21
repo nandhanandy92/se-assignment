@@ -84,6 +84,7 @@ const Plan = () => {
                           key={p.procedure.procedureId}
                           procedure={p.procedure}
                           users={users}
+                          planId={id}
                         />
                       ))}
                     </div>
